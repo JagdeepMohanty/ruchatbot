@@ -1,0 +1,468 @@
+[
+  {
+    "id": "about_001",
+    "category": "University",
+    "title": "About Rai University",
+    "keywords": ["rai university", "about", "established", "founded", "institution"],
+    "questions": [
+      "What is Rai University?",
+      "Tell me about Rai University",
+      "When was Rai University established?",
+      "Where is Rai University located?"
+    ],
+    "answer": "Rai University was established under the Gujarat Private Universities (Amendment) Act No. 12 and is recognized by the University Grants Commission (UGC). It is accredited by the National Assessment and Accreditation Council (NAAC). The university is committed to outcome-based, industry-aligned and research-driven education in line with the National Education Policy (NEP) 2020, emphasizing innovation, entrepreneurship and global competencies."
+  },
+  {
+    "id": "location_001",
+    "category": "University",
+    "title": "Campus Location",
+    "keywords": ["address", "location", "campus", "ahmedabad", "dholka", "saroda", "contact"],
+    "questions": [
+      "Where is Rai University located?",
+      "What is the campus address?",
+      "How do I reach Rai University?",
+      "Where is the main campus?"
+    ],
+    "answer": "Rai University's main campus is located at SH-144, Village - Saroda, Taluka - Dholka, Dist. Ahmedabad, Gujarat-382260. Contact: +91 89 8000 4325, Email: info@raiuniversity.edu"
+  },
+  {
+    "id": "vision_001",
+    "category": "University",
+    "title": "Vision Statement",
+    "keywords": ["vision", "goal", "objective", "future"],
+    "questions": [
+      "What is Rai University's vision?",
+      "What are the goals of Rai University?",
+      "What does Rai University aim to achieve?"
+    ],
+    "answer": "Rai University's vision is to produce professional graduates and responsible citizens to serve the changing needs of the nation and the world."
+  },
+  {
+    "id": "mission_001",
+    "category": "University",
+    "title": "Mission Statement",
+    "keywords": ["mission", "purpose", "commitment", "promote"],
+    "questions": [
+      "What is Rai University's mission?",
+      "What is the mission of the university?",
+      "What does Rai University focus on?"
+    ],
+    "answer": "Rai University's mission is to: 1) Promote learner-centric perspective by strengthening and providing facilities and resources to facilitate quality education. 2) Enrich learners' skills for lifelong learning and professional ethics. 3) Build collaboration with corporate industry for advanced learning and promote innovative practices."
+  },
+  {
+    "id": "recognition_001",
+    "category": "Recognition & Accreditation",
+    "title": "University Recognitions",
+    "keywords": ["ugc", "naac", "approval", "recognition", "accredited", "bci", "pci", "recognized"],
+    "questions": [
+      "Is Rai University UGC approved?",
+      "Is Rai University NAAC accredited?",
+      "What recognitions does Rai University have?",
+      "Is Rai University recognized by BCI and PCI?"
+    ],
+    "answer": "Rai University is recognized by the University Grants Commission (UGC), the Bar Council of India (BCI), and the Pharmacy Council of India (PCI). The university is also accredited by the National Assessment and Accreditation Council (NAAC). It is ISO 9001:2015 and ISO 14001:2015 certified."
+  },
+  {
+    "id": "ratings_001",
+    "category": "Recognition & Accreditation",
+    "title": "University Ratings and Rankings",
+    "keywords": ["rating", "ranking", "gsirf", "iic", "zee", "times", "excellence", "achievement", "achievements"],
+    "questions": [
+      "What are Rai University's ratings?",
+      "Has Rai University received any rankings?",
+      "What is Rai University's GSIRF rating?",
+      "Has Rai University won any awards?"
+    ],
+    "answer": "Rai University has received multiple prestigious ratings and rankings: 3-Star Rating by Gujarat State Institutional Rating Framework (GSIRF) in 2022, 2023, 2025. 3-Star Rating from Institution's Innovation Council (IIC), Ministry of Education, Govt. of India in 2021-22, 2022-23, 2023-24. Ranked Best Private University in Skill Development and Placement at Maha-Sanman-2023 by Zee 24 Kalak. Ranked Best Private University in Teaching Excellence at Time Education Icon Awards 2021 by Times Group. Recognized by National Community Engagement Academic Network (NCEAN)-2024."
+  },
+  {
+    "id": "salient_001",
+    "category": "University",
+    "title": "Salient Features",
+    "keywords": ["features", "highlights", "strengths", "excellence", "programs"],
+    "questions": [
+      "What are the key features of Rai University?",
+      "What makes Rai University unique?",
+      "What are the highlights of the university?"
+    ],
+    "answer": "Rai University's salient features include: Futuristic Programs, Collaborative Learning, Industry Adoption, International Exposure, Experienced Faculty, Incubation Support, Tech-Enabled Campus, Research Facility, Placement Preparation, Learning Suite Ecosystem. The university has established partnerships with TATA IIS and ADS Foundation for skill development and is an authorized Microsoft Certification Centre."
+  },
+  {
+    "id": "collaborations_001",
+    "category": "Partnerships",
+    "title": "Industry Collaborations",
+    "keywords": ["collaboration", "partnership", "tata", "microsoft", "industry", "corporate"],
+    "questions": [
+      "Who does Rai University collaborate with?",
+      "What industry partnerships does Rai University have?",
+      "Is Rai University a Microsoft Certification Centre?"
+    ],
+    "answer": "Rai University has strategic collaborations with TATA IIS and ADS Foundation for Skill Development Programmes, Faculty Development Programmes, Short term and Long term Internships Programmes, Placement Support, and Industry led programmes. The university is an Authorised Microsoft Certification Centre."
+  },
+  {
+    "id": "ai_learning_001",
+    "category": "AI Learning Platform",
+    "title": "AI-Driven Learning Platform",
+    "keywords": ["ai", "ml", "machine learning", "learning", "platform", "virtual labs", "3d models", "analytics", "dashboard"],
+    "questions": [
+      "What is the AI Learning Platform?",
+      "How does Rai University use AI in learning?",
+      "What are the features of the learning platform?"
+    ],
+    "answer": "Rai University's AI-driven learning platform enhances students' growth through three stages: Foundation (Virtual Labs, 24/7 Access), Intermediate (New Skills, Practical Exposure, Evaluation), and Final (Internships, Placement Preparation, Job-Ready Skills). Features include Virtual Labs with simulations, 3D Models for complex concepts, Holobox for real-time holographic lectures, Dashboard and Analytics for tracking progress, AI-enabled personalized learning, and offline access without internet."
+  },
+  {
+    "id": "offline_learning_001",
+    "category": "AI Learning Platform",
+    "title": "Offline Learning Mode",
+    "keywords": ["offline", "internet", "no internet required", "connectivity", "data sync"],
+    "questions": [
+      "Can I access courses without internet?",
+      "Does Rai University offer offline learning?",
+      "What is the offline mode advantage?"
+    ],
+    "answer": "Rai University's learning platform allows complete access to courses, lectures, notes, and quizzes offline. No Internet Required - students can learn anywhere without poor connectivity. Advantages include Seamless Learning without internet, automatic Data Sync once online, ideal Accessibility for regions with poor connectivity, Consistency with no disruption in teaching, and Flexibility on desktops and laptops."
+  },
+  {
+    "id": "smart_classroom_001",
+    "category": "AI Learning Platform",
+    "title": "Smart Classroom and Digital Delivery",
+    "keywords": ["smart classroom", "digital", "multimedia", "interactive", "learning centres"],
+    "questions": [
+      "What are smart classrooms?",
+      "How does Rai University use technology in teaching?",
+      "What is the digital delivery system?"
+    ],
+    "answer": "Smart Classroom and Learning centres at Rai University facilitate real-time support by utilizing multimedia tools to make lessons interactive and engaging. Concepts are personalized to improve understanding, boost motivation, and support student success. The university provides a dedicated website portal and learning app tailored to enhance students' engagement and academic success."
+  },
+  {
+    "id": "dashboard_analytics_001",
+    "category": "AI Learning Platform",
+    "title": "Dashboard and Analytics",
+    "keywords": ["dashboard", "analytics", "progress", "tracking", "performance", "ai"],
+    "questions": [
+      "How can I track my learning progress?",
+      "What information is available in the dashboard?",
+      "How does analytics help in learning?"
+    ],
+    "answer": "The Dashboard and Analytics system provides a complete view of learning progress and performance trends. It tracks progress, daily streaks, and achievements across all modules in real time using AI. Detailed analytics highlight strengths and weak areas for improvement. This insight-driven approach keeps learners motivated and focused on continuous growth."
+  },
+  {
+    "id": "3d_models_001",
+    "category": "AI Learning Platform",
+    "title": "3D Models and Holobox",
+    "keywords": ["3d models", "holobox", "visualization", "interactive", "holographic"],
+    "questions": [
+      "What are 3D models used for?",
+      "What is Holobox?",
+      "How do 3D models help in learning?"
+    ],
+    "answer": "Interactive 3D Models help understand complex concepts with life-like visualizations. Holobox enables experience of guest lectures and seminars from renowned personalities in real-time holographic projections. These are seamlessly integrated and accessible via web or physical display units, providing immersive learning with enhanced focus on practical skills."
+  },
+  {
+    "id": "four_pillars_001",
+    "category": "University",
+    "title": "Four Pillars of Excellence",
+    "keywords": ["pillars", "excellence", "institute", "learning", "entrepreneurship", "training"],
+    "questions": [
+      "What are the four pillars of Rai University?",
+      "How does Rai University ensure excellence?"
+    ],
+    "answer": "Rai University's Four Pillars of Excellence are: 1) Institute of Learning and Technological Temperament - Led by IIT-IIM Graduates with finest teaching material and technology. 2) Holistic Growth - Sports, cultural events, clubs and leadership activities. 3) Entrepreneurship and Start-up Spirit - Established incubators to nurture entrepreneurial ideas. 4) Holistic Training and Placement Support - Industry-aligned training, internships and comprehensive placement assistance."
+  },
+  {
+    "id": "360_support_001",
+    "category": "University",
+    "title": "360° Support System",
+    "keywords": ["support", "academics", "technology", "evaluation", "360 degree"],
+    "questions": [
+      "What support does Rai University provide?",
+      "How does the 360 support system work?"
+    ],
+    "answer": "Rai University's 360° Support System encompasses three key aspects: 1) Academics - Well-structured curriculum, innovative instructional methods, and clear policies. 2) Technology - Modern tools and digital platforms for enhanced engagement, collaboration, and practical understanding. 3) Evaluation - Continuous assessment and performance tracking to nurture real-world skills and holistic growth."
+  },
+  {
+    "id": "schools_001",
+    "category": "Schools",
+    "title": "Schools Overview",
+    "keywords": ["school", "faculty", "department", "engineering", "management", "pharmacy", "law", "agriculture", "sciences", "design", "liberal studies"],
+    "questions": [
+      "How many schools does Rai University have?",
+      "What are the different schools at Rai University?",
+      "Which schools offer what programs?"
+    ],
+    "answer": "Rai University has 9 schools: School of Engineering, School of Management Studies, School of Pharmacy, School of Law, School of Agriculture, School of Sciences, School of Design, School of Liberal Studies, and dedicated programs in Information Technology and Computer Applications."
+  },
+  {
+    "id": "engineering_001",
+    "category": "School of Engineering",
+    "title": "School of Engineering",
+    "keywords": ["engineering", "b.tech", "diploma", "mechanical", "computer", "electrical", "specialization", "ai", "machine learning", "ml"],
+    "questions": [
+      "What programs does School of Engineering offer?",
+      "What is the duration of engineering programs?",
+      "What are the engineering specializations?"
+    ],
+    "answer": "School of Engineering focuses on producing industry-ready engineers through project-based learning, internships, research exposure and innovation-driven education. Programs offered: B.Tech (8 semesters), D2D (6 semesters), Diploma (6 semesters), M.Sc (4 semesters), Ph.D. in Computer Science Engineering, Information Technology, and Computer Application. Specializations include Artificial Intelligence and Machine Learning, Data Science, Cyber Security, Cloud Technology, and Full Stack Development."
+  },
+  {
+    "id": "engineering_courses_001",
+    "category": "School of Engineering",
+    "title": "Engineering Courses and Specializations",
+    "keywords": ["b.tech", "computer engineering", "electrical engineering", "mechanical engineering", "information technology", "cse", "it", "ee", "me", "ai", "machine learning", "ml"],
+    "questions": [
+      "What engineering courses are available?",
+      "What are the engineering specializations?",
+      "What is the duration of B.Tech?"
+    ],
+    "answer": "Engineering Programs: Computer Science Engineering (B.Tech 8 sem, D2D 6 sem) with specializations in Full Stack Development and AI/ML. Information Technology (B.Tech 8 sem, D2D 6 sem, Diploma 6 sem) with electives in AI/ML, Data Analysis and Visualization, Cyber Security. Mechanical Engineering (B.Tech 8 sem) with specializations in Automobile Engineering for EV and Powerplant Engineering. Electrical Engineering (Diploma 6 sem) with electives in Power System and Power Electronics."
+  },
+  {
+    "id": "management_001",
+    "category": "School of Management Studies",
+    "title": "School of Management Studies",
+    "keywords": ["management", "bba", "mba", "b.com", "integrated mba", "business"],
+    "questions": [
+      "What management programs are offered?",
+      "What are the MBA specializations?",
+      "What is the duration of MBA?"
+    ],
+    "answer": "School of Management Studies offers industry-focused undergraduate, postgraduate and doctoral programs designed to develop future-ready managers, leaders and entrepreneurs. Programs include BBA (8 sem), B.Com (8 sem), MBA (4 sem), Integrated MBA (10 sem), and Ph.D. in Management. The school emphasizes experiential learning through case studies, real-world projects, internships, industry mentoring and entrepreneurship development aligned with Aatmanirbhar Bharat vision."
+  },
+  {
+    "id": "management_courses_001",
+    "category": "School of Management Studies",
+    "title": "Management Courses and Specializations",
+    "keywords": ["bba", "mba", "b.com", "finance", "marketing", "hr", "human resources", "specialization", "ai", "machine learning", "ml"],
+    "questions": [
+      "What are the BBA specializations?",
+      "What MBA specializations are available?",
+      "What is B.Com specialization?"
+    ],
+    "answer": "BBA (Hons) 8 sem with specializations: Sales and Digital Marketing, Applied HR, Fintech, AI and Business Analytics, Entrepreneurship and Innovation. B.Com (Hons) 8 sem specialization: Accounting and Finance, AI and Fintech. MBA (4 sem) specializations: Human Resources, Finance, Marketing, Entrepreneurship and Family Business, Business Analytics and Fintech. Integrated MBA (10 sem) specialization: AI and Business Analytics."
+  },
+  {
+    "id": "pharmacy_001",
+    "category": "School of Pharmacy",
+    "title": "School of Pharmacy",
+    "keywords": ["pharmacy", "b.pharm", "d.pharm", "m.pharm", "pharmaceutical", "pharmacist"],
+    "questions": [
+      "What pharmacy programs are offered?",
+      "What are the pharmacy specializations?",
+      "What is the duration of pharmacy programs?"
+    ],
+    "answer": "School of Pharmacy is dedicated to excellence in pharmaceutical education, research and professional practice. It aims to develop competent pharmacists and researchers with strong scientific expertise and ethical values. Programs: D.Pharm (2 years), B.Pharm (8 sem), D2D B.Pharm (6 sem), M.Pharm (4 sem), Ph.D. in Pharmaceutical Sciences. Specializations: Pharmaceutics, Pharmaceutical Quality Assurance."
+  },
+  {
+    "id": "law_001",
+    "category": "School of Law",
+    "title": "School of Law",
+    "keywords": ["law", "llb", "b.a. llb", "b.b.a. llb", "ll.m", "legal", "constitutional", "corporate", "criminal"],
+    "questions": [
+      "What law programs are offered?",
+      "What are the law specializations?",
+      "What is the duration of law programs?"
+    ],
+    "answer": "School of Law emphasizes practical training, experiential learning and professional skill development. The curriculum is designed to build strong foundations in legal knowledge, advocacy, drafting, research and ethical practice. Programs: B.A. LLB (10 sem), B.B.A. LLB (10 sem), LL.B (6 sem), LL.M (4 sem), Ph.D. in Law. Specializations: Constitutional and Administrative Law, Corporate and Commercial Law, Criminal and Security Law."
+  },
+  {
+    "id": "agriculture_001",
+    "category": "School of Agriculture",
+    "title": "School of Agriculture",
+    "keywords": ["agriculture", "b.sc agriculture", "m.sc agriculture", "farming", "agricultural sciences"],
+    "questions": [
+      "What agriculture programs are offered?",
+      "What are the specializations in agriculture?",
+      "How long is the agriculture program?"
+    ],
+    "answer": "School of Agriculture is committed to advancing education and research in agricultural and allied sciences with a strong focus on sustainability, scientific farming practices and modern agricultural technologies. It contributes to national development and food security. Programs: B.Sc. (Hons) Agriculture (8 sem), M.Sc. Agriculture (4 sem). Students benefit from rigorous academic curriculum combined with hands-on training, research exposure and extensive field-based learning."
+  },
+  {
+    "id": "sciences_001",
+    "category": "School of Sciences",
+    "title": "School of Sciences",
+    "keywords": ["sciences", "chemistry", "microbiology", "b.sc", "m.sc", "pharmaceutical chemistry"],
+    "questions": [
+      "What science programs are offered?",
+      "What are the science specializations?",
+      "How long is the science program?"
+    ],
+    "answer": "School of Sciences provides an interdisciplinary approach and is committed to excel knowledge in pure sciences. It builds a strong foundation for further academic pursuits in science and technology. Programs: B.Sc. (Hons) Chemistry (8 sem), B.Sc. (Hons) Microbiology (8 sem), M.Sc. Chemistry (4 sem) with specializations in Industrial Chemistry, Organic Chemistry, Analytical Chemistry. M.Sc. Microbiology (4 sem), M.Sc. Pharmaceutical Chemistry (4 sem)."
+  },
+  {
+    "id": "design_001",
+    "category": "School of Design",
+    "title": "School of Design",
+    "keywords": ["design", "b.design", "fashion design", "creative", "studio"],
+    "questions": [
+      "What design programs are offered?",
+      "What is the duration of design program?",
+      "What is the design specialization?"
+    ],
+    "answer": "School of Design offers creative and industry-oriented learning environment that blends artistic vision with technical expertise. The school prepares students for professional careers in design through studio-based learning, projects and exposure to contemporary trends. Program: B.Design (8 sem) with specialization in Fashion Design."
+  },
+  {
+    "id": "liberal_studies_001",
+    "category": "School of Liberal Studies",
+    "title": "School of Liberal Studies",
+    "keywords": ["liberal studies", "b.a", "psychology", "b.sc psychology", "critical thinking", "honours"],
+    "questions": [
+      "What liberal studies programs are offered?",
+      "What programs are in liberal studies?",
+      "Can I study psychology at Rai University?"
+    ],
+    "answer": "School of Liberal Studies promotes critical thinking, interdisciplinary learning and intellectual curiosity. The school emphasizes integration of theory, research and practical application with strong focus on ethics and social responsibility. Programs: B.A. (Hons) Psychology (8 sem), B.Sc. (Hons) Psychology (8 sem)."
+  },
+  {
+    "id": "mca_001",
+    "category": "MCA Programs",
+    "title": "Master of Computer Applications (MCA)",
+    "keywords": ["mca", "computer applications", "master", "data science", "ai", "machine learning", "ml", "cyber security"],
+    "questions": [
+      "What is the MCA program?",
+      "What are the MCA specializations?",
+      "What is the duration of MCA?"
+    ],
+    "answer": "MCA (4 Semesters) with electives in Artificial Intelligence and Machine Learning, and Cyber Security. Integrated MCA (10 Semesters) with specialization in Data Science, Artificial Intelligence and Machine Learning. The program is designed to produce industry-ready computer professionals."
+  },
+  {
+    "id": "bca_001",
+    "category": "BCA Programs",
+    "title": "Bachelor of Computer Applications (BCA)",
+    "keywords": ["bca", "bachelor computer applications", "machine learning", "ml", "blockchain", "data science"],
+    "questions": [
+      "What is the BCA program?",
+      "What are the BCA specializations?",
+      "How long is BCA program?"
+    ],
+    "answer": "BCA (Hons) - First option (8 Semesters) with electives in Machine Learning and Blockchain. BCA (Hons) - Second option (8 Semesters) with specializations in Artificial Intelligence and Machine Learning, and Data Science. The program prepares students for careers in computer applications and software development."
+  },
+  {
+    "id": "placements_001",
+    "category": "Placements",
+    "title": "Placement and Career Support",
+    "keywords": ["placement", "placements", "job", "career", "crc", "corporate resource cell", "interview", "resume"],
+    "questions": [
+      "What is the placement support at Rai University?",
+      "How does Rai University help with placements?",
+      "What is the Corporate Resource Cell?",
+      "How are students prepared for placements?"
+    ],
+    "answer": "The Corporate Resource Cell (CRC) facilitates training, internships, and placement opportunities by building strong linkages between industry and academia. CRC prepares students through resume-building workshops, mock interviews, aptitude training and career guidance. Regular industry interactions, guest lectures and expert talks further enhance students' employability and career readiness. The university has received recognition for excellence in placement support."
+  },
+  {
+    "id": "placement_suite_001",
+    "category": "Placements",
+    "title": "AI-Enabled Placement Suite",
+    "keywords": ["placement", "ai enabled", "interview", "aptitude", "simulation", "google", "microsoft"],
+    "questions": [
+      "What is the AI-Enabled Placement Suite?",
+      "How can I practice for placements?",
+      "What does the placement platform offer?"
+    ],
+    "answer": "The AI-Enabled Placement Suite provides unlimited access to realistic placement simulations modeled after the hiring processes of top companies like Google and Microsoft. The platform includes aptitude tests to technical interviews, with each module mirroring real scenarios to boost confidence and skills for career success."
+  },
+  {
+    "id": "research_innovation_001",
+    "category": "Research & Innovation",
+    "title": "Centre for Research and Innovation",
+    "keywords": ["research", "innovation", "phd", "doctoral", "conference", "workshop", "faculty development", "ml", "machine learning", "ai"],
+    "questions": [
+      "What research opportunities are available?",
+      "Can I pursue PhD at Rai University?",
+      "What is the Centre for Research and Innovation?",
+      "Does Rai University organize conferences?"
+    ],
+    "answer": "The Centre for Research and Innovation provides a vibrant ecosystem for interdisciplinary research and doctoral studies in accordance with UGC regulations. The university regularly organizes national and international conferences, workshops and faculty development programs to foster a strong research culture. Research work and doctoral thesis of the university's scholars are recognized and published by the Association of Indian Universities (AIU). Research scholars and alumni are placed in reputed academic, industrial and government organizations in India and abroad."
+  },
+  {
+    "id": "ssip_cell_001",
+    "category": "Research & Innovation",
+    "title": "SSIP Cell - Startup and Innovation Support",
+    "keywords": ["ssip", "startup", "innovation", "entrepreneurship", "hackathon", "intellectual property", "incubation"],
+    "questions": [
+      "What is the SSIP Cell?",
+      "How does Rai University support startups?",
+      "Can I start a company at Rai University?",
+      "What innovation support is available?"
+    ],
+    "answer": "Rai University supports innovation and entrepreneurship in line with the Government of Gujarat's student startup and Innovation Policy. The SSIP Cell provides support for proof-of-concept development, startup incubation and intellectual property creation. It encourages students to participate in hackathons, innovation challenges and startup initiatives. A Rai University student team received the Summer Innovation Challenge Award for the project 'Treadmill Bicycle Walk to Speed' from former Gujarat Chief Minister Shri Vijay Rupani and former Education Minister Shri Bhupendrasinh Chudasama."
+  },
+  {
+    "id": "student_clubs_001",
+    "category": "Student Life",
+    "title": "Student Clubs and Organizations",
+    "keywords": ["clubs", "student", "activities", "events", "organization", "cultural", "sports"],
+    "questions": [
+      "What student clubs are available?",
+      "What activities can I participate in?",
+      "Are there cultural events at Rai University?",
+      "What is 'Events @ RU'?"
+    ],
+    "answer": "Rai University offers various student clubs and organizations that facilitate holistic development through sports, cultural events, clubs and leadership activities. The university organizes regular events through 'Events @ RU' which provides students with opportunities to participate in competitions, exhibitions, seminars, workshops and social service activities."
+  },
+  {
+    "id": "contact_001",
+    "category": "Contact Information",
+    "title": "Contact Details",
+    "keywords": ["contact", "email", "phone", "address", "phone number", "website", "location"],
+    "questions": [
+      "How can I contact Rai University?",
+      "What is the phone number?",
+      "What is the email address?",
+      "How do I reach Rai University?"
+    ],
+    "answer": "Rai University Contact Information: Campus Address: SH-144, Village - Saroda, Taluka - Dholka, Dist. Ahmedabad, Gujarat-382260. Phone: +91 89 8000 4325. Email: info@raiuniversity.edu. Website: www.raiuniversity.edu. Follow the university on social media for updates and announcements."
+  },
+  {
+    "id": "admission_001",
+    "category": "Admissions",
+    "title": "Admission Information",
+    "keywords": ["admission", "apply", "eligibility", "requirements", "enrollment"],
+    "questions": [
+      "How do I apply to Rai University?",
+      "What are the admission requirements?",
+      "When is the admission deadline?",
+      "What is the application process?"
+    ],
+    "answer": "For detailed admission information, eligibility criteria, application process and deadlines, please visit www.raiuniversity.edu or contact the university directly at +91 89 8000 4325 or info@raiuniversity.edu. The admission team will provide complete guidance for your chosen program."
+  },
+  {
+    "id": "fee_structure_001",
+    "category": "Admissions",
+    "title": "Fee Structure",
+    "keywords": ["fee", "fees", "cost", "tuition", "payment", "scholarship"],
+    "questions": [
+      "What are the fees for different programs?",
+      "Is there a scholarship available?",
+      "What is the cost of programs?",
+      "Are there financial aid options?"
+    ],
+    "answer": "For detailed fee structure and scholarship information for different programs, please contact the university directly. You can reach the admissions office at +91 89 8000 4325 or visit www.raiuniversity.edu for complete details on fees, financial aid options and scholarship opportunities."
+  },
+  {
+    "id": "bsc_it_001",
+    "category": "IT Programs",
+    "title": "B.Sc Information Technology",
+    "keywords": ["b.sc it", "information technology", "b.sc", "honours", "machine learning", "ml"],
+    "questions": [
+      "What is B.Sc Information Technology?",
+      "What electives are available in IT?",
+      "How long is B.Sc IT program?"
+    ],
+    "answer": "B.Sc. (Hons.) Information Technology (8 Semesters) with electives in: Artificial Intelligence and Machine Learning, Machine Learning, Data Analysis and Visualization, Cyber Security. The program prepares students for careers in IT industry with strong technical foundation and practical skills."
+  },
+  {
+    "id": "experience_001",
+    "category": "University",
+    "title": "Experienced Faculty and Leadership",
+    "keywords": ["faculty", "iit", "iim", "experienced", "qualified", "professors", "lecturers", "ai", "machine learning", "ml"],
+    "questions": [
+      "What is the quality of faculty?",
+      "Are the faculty members experienced?",
+      "Who teaches at Rai University?",
+      "Are there IIT-IIM graduates?"
+    ],
+    "answer": "Rai University is led by IIT-IIM Graduates on a mission to bring the finest teaching material, methods and technology on par with top IITs and Ivy Leagues. The university has experienced and qualified faculty members who are dedicated to providing high-quality education and mentorship to students."
+  }
+]

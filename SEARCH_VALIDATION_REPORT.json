@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-06-24T19:54:39.824Z",
+  "totalTests": 201,
+  "passed": 198,
+  "failed": 3,
+  "successRate": 98.5,
+  "brochureEntries": 38,
+  "totalKeywords": 263,
+  "failures": [
+    {
+      "query": "Arts",
+      "reason": "keyword_missing",
+      "suggestedKeywords": [
+        "arts"
+      ]
+    },
+    {
+      "query": "Cloud",
+      "reason": "keyword_missing",
+      "suggestedKeywords": [
+        "cloud"
+      ]
+    },
+    {
+      "query": "Online",
+      "reason": "keyword_missing",
+      "suggestedKeywords": [
+        "online"
+      ]
+    }
+  ],
+  "singleWordCoverage": 18,
+  "singleWordTotal": 18,
+  "duplicateMessageFix": true
+}

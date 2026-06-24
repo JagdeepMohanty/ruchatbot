@@ -1,0 +1,38 @@
+{
+  "name": "raichatbot",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test:qa": "node phase3_qa_test.mjs",
+    "test:integration": "node phase3_integration.mjs",
+    "test:all": "node phase3_qa_test.mjs && node phase3_integration.mjs"
+  },
+  "dependencies": {
+    "fuse.js": "^7.4.2",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^10.5.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "framer-motion": "^12.40.0",
+    "globals": "^17.6.0",
+    "postcss": "^8.4.47",
+    "prettier": "^3.8.4",
+    "react-icons": "^5.6.0",
+    "react-router-dom": "^7.18.0",
+    "tailwindcss": "^3.4.1",
+    "vite": "^8.0.12"
+  }
+}
