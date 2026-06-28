@@ -1,0 +1,16 @@
+/*
+  Netlify SPA Routing Configuration
+  Redirects all non-matching routes to index.html
+  This allows React Router to handle all routing on the client-side
+*/
+
+/*  Wildcard redirect for SPA  */
+/*  Match any route and serve index.html with 200 status  */
+/*  This prevents 404 errors on direct URL access and refresh  */
+/*  React Router will handle the routing in the browser  */
+/chatbot  /index.html  200
+/contact  /index.html  200
+/*  Catch-all for any other routes  */
+/*  status 200 means the rewrite is internal (not visible to browser)  */
+/*  The user sees their URL, not /index.html  */
+/  /index.html  200

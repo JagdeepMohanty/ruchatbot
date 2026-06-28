@@ -3,9 +3,6 @@
  * This module enhances searchEngine.js with additional aliases and synonyms
  */
 
-import Fuse from 'fuse.js';
-import brochureData from '../data/brochure.json';
-
 // EXTENDED ALIAS MAP - Comprehensive coverage
 export const EXTENDED_ALIAS_MAP = {
   // Science & Academics - Extended
@@ -40,9 +37,7 @@ export const EXTENDED_ALIAS_MAP = {
   'hrm': 'management_courses_001',
   'accounting': 'management_courses_001',
   'accounting and finance': 'management_courses_001',
-  'entrepreneurship': 'ssip_cell_001',
-  'startup': 'ssip_cell_001',
-  'innovation': 'ssip_cell_001',
+
   
   // Engineering - Extended
   'engineering': 'engineering_001',
@@ -285,14 +280,10 @@ export const EXTENDED_ALIAS_MAP = {
   'payments': 'fee_structure_001',
   
   // Recognition - Extended
-  'recognition': 'recognition_001',
-  'recognized': 'recognition_001',
   'ugc': 'recognition_001',
   'ugc approved': 'recognition_001',
   'naac': 'recognition_001',
   'naac accredited': 'recognition_001',
-  'accreditation': 'recognition_001',
-  'accredited': 'recognition_001',
   'bci': 'recognition_001',
   'bar council': 'recognition_001',
   'pci': 'recognition_001',

@@ -1,21 +1,67 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
+import { formatResponse } from '../../utils/responseRenderer';
 
 function ChatBubble({ message, isBot = false, timestamp, confidence, matchedKeywords = [] }) {
-  // Highlight matched keywords in the message
+  // Highlight matched keywords in text
   const highlightKeywords = (text, keywords) => {
     if (!keywords || keywords.length === 0) return text;
     
-    let highlightedText = text;
+    let result = text;
     keywords.forEach(keyword => {
       const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-      highlightedText = highlightedText.replace(
+      result = result.replace(
         regex,
         `<mark class="bg-yellow-200 font-semibold">$&</mark>`
       );
     });
-    return highlightedText;
+    return result;
+  };
+
+  // Render structured content blocks
+  const renderStructuredContent = (blocks) => {
+    return blocks.map((block) => {
+      if (!block) return null;
+
+      if (block.type === 'paragraph') {
+        return (
+          <p key={block.key} className="mb-3 leading-relaxed text-sm sm:text-base">
+            {highlightKeywords(block.content, matchedKeywords)}
+          </p>
+        );
+      }
+
+      if (block.type === 'ul') {
+        return (
+          <ul key={block.key} className="mb-3 ml-4 space-y-1">
+            {block.items.map((item, idx) => (
+              <li key={idx} className="list-disc text-sm sm:text-base leading-relaxed">
+                {highlightKeywords(item, matchedKeywords)}
+              </li>
+            ))}
+          </ul>
+        );
+      }
+
+      if (block.type === 'ol') {
+        return (
+          <ol
+            key={block.key}
+            className="mb-3 ml-4 space-y-1 list-decimal"
+            style={block.letterStyle ? { listStyleType: 'lower-alpha' } : {}}
+          >
+            {block.items.map((item, idx) => (
+              <li key={idx} className="text-sm sm:text-base leading-relaxed">
+                {highlightKeywords(item, matchedKeywords)}
+              </li>
+            ))}
+          </ol>
+        );
+      }
+
+      return null;
+    });
   };
 
   const getConfidenceColor = (score) => {
@@ -32,6 +78,15 @@ function ChatBubble({ message, isBot = false, timestamp, confidence, matchedKeyw
     return 'Low confidence';
   };
 
+  // Parse and format bot response
+  let formattedBlocks = null;
+  if (isBot) {
+    const formatted = formatResponse(message);
+    if (formatted.hasStructure && formatted.blocks.length > 0) {
+      formattedBlocks = formatted.blocks;
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -40,14 +95,18 @@ function ChatBubble({ message, isBot = false, timestamp, confidence, matchedKeyw
       className={`flex ${isBot ? 'justify-start' : 'justify-end'} mb-2 sm:mb-3 md:mb-4`}
     >
       <div
-        className={`w-full sm:max-w-xs md:max-w-md lg:max-w-lg px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-2xl shadow-md transition-all hover:shadow-lg ${
+        className={`w-full sm:max-w-xs md:max-w-md lg:max-w-lg px-3 sm:px-4 py-3 sm:py-4 rounded-lg sm:rounded-2xl shadow-md transition-all hover:shadow-lg ${
           isBot
             ? 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 border border-gray-200 rounded-bl-lg sm:rounded-bl-none'
             : 'bg-gradient-to-br from-primary-700 to-primary-800 text-white rounded-br-lg sm:rounded-br-none shadow-lg'
         }`}
       >
-        <div className="text-xs sm:text-sm leading-relaxed break-words whitespace-pre-wrap overflow-wrap-break-word">
-          {isBot && matchedKeywords && matchedKeywords.length > 0 ? (
+        <div className="text-sm sm:text-base leading-relaxed break-words overflow-wrap-break-word">
+          {isBot && formattedBlocks ? (
+            <div className="space-y-2">
+              {renderStructuredContent(formattedBlocks)}
+            </div>
+          ) : isBot && matchedKeywords && matchedKeywords.length > 0 ? (
             <div dangerouslySetInnerHTML={{ __html: highlightKeywords(message, matchedKeywords) }} />
           ) : (
             message
