@@ -1,35 +1,20 @@
 import Fuse from 'fuse.js';
-import brochureData from '../data/brochure.json';
+import brochureData from '../data/brochure.json' with { type: 'json' };
 
+/**
+ * STRICT BROCHURE-DRIVEN FAQ RETRIEVAL SYSTEM
+ * 
+ * PRIORITY ORDER:
+ * 1. Exact match (question OR alias) → 1.0 score
+ * 2. Alias map match → 0.95 score
+ * 3. Keyword overlap → 0.80-0.90 score
+ * 4. Fuse.js semantic match → 0.85+ score
+ * 
+ * REJECTION THRESHOLD: < 0.75 → NO MATCH
+ */
 
-
-// Direct alias system - maps queries directly to brochure entries
+// ALIAS MAP - Direct keyword to entry ID mapping
 const ALIAS_MAP = {
-  // Science & Academics
-  'science': 'sciences_001',
-  'sciences': 'sciences_001',
-  'bsc': 'sciences_001',
-  'b.sc': 'sciences_001',
-  'msc': 'sciences_001',
-  'm.sc': 'sciences_001',
-  'chemistry': 'sciences_001',
-  'microbiology': 'sciences_001',
-  'pharmaceutical': 'sciences_001',
-  
-  // Management Programs
-  'bba': 'management_courses_001',
-  'mba': 'management_courses_001',
-  'b.com': 'management_courses_001',
-  'bcom': 'management_courses_001',
-  'commerce': 'management_001',
-  'finance': 'management_courses_001',
-  'fintech': 'management_courses_001',
-  'marketing': 'management_courses_001',
-  'hr': 'management_courses_001',
-  'human resources': 'management_courses_001',
-  'accounting': 'management_courses_001',
-  'accounting and finance': 'management_courses_001',
-  
   // Engineering
   'engineering': 'engineering_001',
   'b.tech': 'engineering_001',
@@ -43,247 +28,108 @@ const ALIAS_MAP = {
   'ai': 'engineering_001',
   'ml': 'engineering_001',
   'machine learning': 'engineering_001',
-  'cloud': 'engineering_001',
-  'cyber': 'engineering_courses_001',
-  'cyber security': 'engineering_courses_001',
   'data science': 'engineering_001',
+  'cyber security': 'engineering_courses_001',
+  
+  // Management
+  'bba': 'management_courses_001',
+  'mba': 'management_courses_001',
+  'b.com': 'management_courses_001',
+  'bcom': 'management_courses_001',
+  'management': 'management_001',
+  'finance': 'management_courses_001',
+  'marketing': 'management_courses_001',
+  'hr': 'management_courses_001',
+  'human resources': 'management_courses_001',
   
   // Computer Applications
   'mca': 'mca_001',
-  'master computer applications': 'mca_001',
   'bca': 'bca_001',
-  'bachelor computer applications': 'bca_001',
   'b.sc it': 'bsc_it_001',
   
   // Other Schools
   'pharmacy': 'pharmacy_001',
   'b.pharm': 'pharmacy_001',
-  'bpharm': 'pharmacy_001',
-  'd.pharm': 'pharmacy_001',
-  'dpharm': 'pharmacy_001',
-  'm.pharm': 'pharmacy_001',
-  'mpharm': 'pharmacy_001',
   'law': 'law_001',
   'llb': 'law_001',
   'agriculture': 'agriculture_001',
+  'science': 'sciences_001',
+  'sciences': 'sciences_001',
   'design': 'design_001',
-  'fashion': 'design_001',
   'liberal studies': 'liberal_studies_001',
   'psychology': 'liberal_studies_001',
-  'arts': 'liberal_studies_001',
   
-  // Campus & Location
-  'campus': 'location_001',
+  // University Info
+  'about': 'about_001',
+  'vision': 'vision_001',
+  'mission': 'mission_001',
   'location': 'location_001',
   'address': 'location_001',
-  'where': 'location_001',
   'contact': 'contact_001',
-  'email': 'contact_001',
-  'phone': 'contact_001',
-  'ahmedabad': 'location_001',
+  'admission': 'admission_001',
+  'fee': 'fee_structure_001',
+  'fees': 'fee_structure_001',
   
-  // Placements & Careers
+  // Recognition
+  'ugc': 'recognition_001',
+  'naac': 'recognition_001',
+  'rating': 'ratings_001',
+  'ranking': 'ratings_001',
+  
+  // Placements
   'placement': 'placements_001',
   'placements': 'placements_001',
   'job': 'placements_001',
-  'jobs': 'placements_001',
   'career': 'placements_001',
-  'careers': 'placements_001',
-  'recruitment': 'placements_001',
-  'placement support': 'placements_001',
-  'internship': 'placements_001',
-  'internships': 'placements_001',
-  'crc': 'placements_001',
-  'corporate resource cell': 'placements_001',
   
-  // Achievements & Recognition
-  'achievement': 'ratings_001',
-  'achievements': 'ratings_001',
-  'ranking': 'ratings_001',
-  'rankings': 'ratings_001',
-  'award': 'ratings_001',
-  'awards': 'ratings_001',
-  'rating': 'ratings_001',
-  'ratings': 'ratings_001',
-  'honours': 'liberal_studies_001',
-  'honors': 'liberal_studies_001',
-  'hons': 'liberal_studies_001',
-  
-  // University Information
-  'vision': 'vision_001',
-  'mission': 'mission_001',
-  'about': 'about_001',
-  'features': 'salient_001',
-  'pillars': 'four_pillars_001',
-  'support': '360_support_001',
-  'faculty': 'experience_001',
-  'professors': 'experience_001',
-  'experienced': 'experience_001',
-  'iit': 'experience_001',
-  'iim': 'experience_001',
-  
-  // Research & Innovation
+  // Research
   'research': 'research_innovation_001',
   'phd': 'research_innovation_001',
-  'doctoral': 'research_innovation_001',
-  'innovation': 'ssip_cell_001',
   'startup': 'ssip_cell_001',
-  'entrepreneurship': 'ssip_cell_001',
-  'incubation': 'ssip_cell_001',
-  'ssip': 'ssip_cell_001',
-  
-  // AI Learning Platform
-  'ai learning platform': 'ai_learning_001',
-  'ai-driven': 'ai_learning_001',
-  'dashboard': 'dashboard_analytics_001',
-  'analytics': 'dashboard_analytics_001',
-  'virtual labs': 'ai_learning_001',
-  'virtual lab': 'ai_learning_001',
-  'holographic': '3d_models_001',
-  'holobox': '3d_models_001',
-  '3d models': '3d_models_001',
-  'smart classroom': 'smart_classroom_001',
-  'offline': 'offline_learning_001',
-  'online': 'offline_learning_001',
-  
-  // Admissions
-  'admission': 'admission_001',
-  'admissions': 'admission_001',
-  'apply': 'admission_001',
-  'application': 'admission_001',
-  'enroll': 'admission_001',
-  'enrollment': 'admission_001',
-  'fee': 'fee_structure_001',
-  'fees': 'fee_structure_001',
-  'cost': 'fee_structure_001',
-  'scholarship': 'fee_structure_001',
-  'scholarships': 'fee_structure_001',
-  'financial aid': 'fee_structure_001',
-  
-  // Other
-  'recognition': 'recognition_001',
-  'accreditation': 'recognition_001',
-  'naac': 'recognition_001',
-  'ugc': 'recognition_001',
-  'collaboration': 'collaborations_001',
-  'partnership': 'collaborations_001',
-  'microsoft': 'collaborations_001',
-  'tata': 'collaborations_001',
-  'student clubs': 'student_clubs_001',
-  'events': 'student_clubs_001',
-  'sports': 'student_clubs_001'
+  'innovation': 'ssip_cell_001'
 };
 
-export function normalizeText(text) {
+/**
+ * Normalize text for comparison
+ */
+function normalizeText(text) {
   if (!text || typeof text !== 'string') return '';
   return text
     .toLowerCase()
     .trim()
     .replace(/[^\w\s]/g, ' ')
     .replace(/\s+/g, ' ')
-    .split(' ')
-    .filter(word => word.length > 0)
-    .join(' ');
+    .trim();
 }
 
-// Step 1: Try direct alias match (fastest, most reliable)
-export function findAliasMatch(query) {
-  const normalized = normalizeText(query).toLowerCase();
-  
-  // Try exact alias match
-  if (ALIAS_MAP[normalized]) {
-    const entryId = ALIAS_MAP[normalized];
-    const entry = brochureData.find(e => e.id === entryId);
-    if (entry) {
-      return { entry, confidence: 100, matchType: 'alias_exact' };
-    }
-  }
-  
-  // Try partial alias match for multi-word queries
-  const words = normalized.split(' ');
-  for (const word of words) {
-    if (ALIAS_MAP[word]) {
-      const entryId = ALIAS_MAP[word];
-      const entry = brochureData.find(e => e.id === entryId);
-      if (entry) {
-        return { entry, confidence: 100, matchType: 'alias_partial' };
-      }
-    }
-  }
-  
-  return null;
-}
-
-// Step 2: Try exact keyword match
-export function findExactKeywordMatch(query) {
-  const normalized = normalizeText(query).toLowerCase();
-  const queryWords = normalized.split(' ').filter(w => w.length > 1);
+/**
+ * STEP 1: Exact Question/Alias Match
+ * Score: 1.0
+ */
+function findExactMatch(query) {
+  const normalized = normalizeText(query);
   
   for (const entry of brochureData) {
-    const keywords = (entry.keywords || []).map(k => k.toLowerCase());
-    
-    for (const word of queryWords) {
-      if (keywords.includes(word)) {
-        return { entry, confidence: 100, matchType: 'keyword_exact' };
-      }
+    // Check question
+    if (normalizeText(entry.question) === normalized) {
+      return {
+        matchedEntry: entry,
+        confidenceScore: 1.0,
+        answerObject: entry.answer,
+        matchType: 'exact_question'
+      };
     }
-  }
-  
-  return null;
-}
-
-// Step 3: Try question match
-export function findQuestionMatch(query) {
-  const normalized = normalizeText(query).toLowerCase();
-  const queryWords = normalized.split(' ').filter(w => w.length > 1);
-  
-  for (const entry of brochureData) {
-    const questions = (entry.questions || []).map(q => normalizeText(q).toLowerCase());
     
-    for (const question of questions) {
-      let matchCount = 0;
-      for (const word of queryWords) {
-        if (question.includes(word)) matchCount++;
-      }
-      if (matchCount >= Math.max(1, queryWords.length * 0.7)) {
-        return { entry, confidence: 95, matchType: 'question' };
-      }
-    }
-  }
-  
-  return null;
-}
-
-// Step 4: Try title match
-export function findTitleMatch(query) {
-  const normalized = normalizeText(query).toLowerCase();
-  const queryWords = normalized.split(' ').filter(w => w.length > 1);
-  
-  for (const entry of brochureData) {
-    const titleNorm = normalizeText(entry.title).toLowerCase();
-    
-    for (const word of queryWords) {
-      if (titleNorm.includes(word)) {
-        return { entry, confidence: 90, matchType: 'title' };
-      }
-    }
-  }
-  
-  return null;
-}
-
-// Step 5: Try keyword partial match
-export function findPartialKeywordMatch(query) {
-  const normalized = normalizeText(query).toLowerCase();
-  const queryWords = normalized.split(' ').filter(w => w.length > 1);
-  
-  for (const entry of brochureData) {
-    const keywords = (entry.keywords || []).map(k => k.toLowerCase());
-    
-    for (const word of queryWords) {
-      for (const keyword of keywords) {
-        if (keyword.includes(word) || word.includes(keyword.substring(0, 3))) {
-          return { entry, confidence: 85, matchType: 'keyword_partial' };
+    // Check aliases
+    if (entry.aliases && Array.isArray(entry.aliases)) {
+      for (const alias of entry.aliases) {
+        if (normalizeText(alias) === normalized) {
+          return {
+            matchedEntry: entry,
+            confidenceScore: 1.0,
+            answerObject: entry.answer,
+            matchType: 'exact_alias'
+          };
         }
       }
     }
@@ -292,318 +138,208 @@ export function findPartialKeywordMatch(query) {
   return null;
 }
 
-// Step 6: Fuzzy search fallback (only after all direct matches fail)
-export function findFuzzyMatch(query) {
-  const fuseOptions = {
-    keys: [
-      { name: 'keywords', weight: 0.4 },
-      { name: 'questions', weight: 0.35 },
-      { name: 'title', weight: 0.15 },
-      { name: 'answer', weight: 0.1 }
-    ],
-    threshold: 0.3,
-    minMatchCharLength: 2,
-    shouldSort: true,
-    includeScore: true,
-    ignoreLocation: true,
-    distance: 1000
-  };
-
-  const fuse = new Fuse(brochureData, fuseOptions);
-  const results = fuse.search(query);
+/**
+ * STEP 2: Alias Map Match
+ * Score: 0.95
+ */
+function findAliasMapMatch(query) {
+  const normalized = normalizeText(query);
   
-  if (results.length > 0) {
-    const topResult = results[0];
-    const confidence = Math.max(50, Math.round((1 - topResult.score) * 80));
-    return { entry: topResult.item, confidence, matchType: 'fuzzy' };
+  // Try full query
+  if (ALIAS_MAP[normalized]) {
+    const entry = brochureData.find(e => e.id === ALIAS_MAP[normalized]);
+    if (entry) {
+      return {
+        matchedEntry: entry,
+        confidenceScore: 0.95,
+        answerObject: entry.answer,
+        matchType: 'alias_map'
+      };
+    }
   }
   
   return null;
 }
 
-// RESTRUCTURED SEARCH FLOW: Try brochure FIRST
-export function searchKnowledgeBase(query) {
-  if (!query || query.trim().length === 0) {
-    return {
-      results: [],
-      confidence: 0,
-      message: 'Please enter a search query.'
-    };
-  }
-
-  // Step 1: Try alias match
-  const aliasMatch = findAliasMatch(query);
-  if (aliasMatch) {
-    return {
-      results: [{
-        id: aliasMatch.entry.id,
-        category: aliasMatch.entry.category,
-        title: aliasMatch.entry.title,
-        answer: aliasMatch.entry.answer,
-        confidence: aliasMatch.confidence,
-        matchType: aliasMatch.matchType
-      }],
-      confidence: aliasMatch.confidence,
-      message: aliasMatch.entry.answer,
-      topResult: {
-        id: aliasMatch.entry.id,
-        title: aliasMatch.entry.title,
-        answer: aliasMatch.entry.answer
+/**
+ * STEP 3: Keyword Overlap Scoring
+ * Score: 0.80-0.90 based on overlap ratio
+ */
+function findKeywordMatch(query) {
+  const normalized = normalizeText(query);
+  const queryWords = normalized.split(' ').filter(w => w.length > 2);
+  
+  if (queryWords.length === 0) return null;
+  
+  let bestMatch = null;
+  let bestScore = 0;
+  
+  for (const entry of brochureData) {
+    const entryKeywords = (entry.keywords || []).map(k => normalizeText(k));
+    
+    // Count exact keyword matches
+    let exactMatches = 0;
+    let partialMatches = 0;
+    
+    for (const word of queryWords) {
+      for (const keyword of entryKeywords) {
+        if (keyword === word) {
+          exactMatches++;
+          break;
+        } else if (keyword.includes(word) || word.includes(keyword)) {
+          partialMatches += 0.5;
+          break;
+        }
       }
+    }
+    
+    const totalMatches = exactMatches + partialMatches;
+    const overlapRatio = totalMatches / queryWords.length;
+    
+    // Score between 0.80 and 0.90 based on match quality
+    if (overlapRatio >= 0.5) {
+      const score = 0.80 + (0.10 * overlapRatio);
+      
+      if (score > bestScore) {
+        bestScore = score;
+        bestMatch = {
+          matchedEntry: entry,
+          confidenceScore: Math.min(0.90, score),
+          answerObject: entry.answer,
+          matchType: 'keyword_overlap'
+        };
+      }
+    }
+  }
+  
+  return bestMatch;
+}
+
+/**
+ * STEP 4: Fuse.js Semantic Match
+ * Score: 0.85+ ONLY
+ */
+function findSemanticMatch(query) {
+  const fuseOptions = {
+    keys: [
+      { name: 'question', weight: 0.5 },
+      { name: 'aliases', weight: 0.3 },
+      { name: 'keywords', weight: 0.2 }
+    ],
+    includeScore: true,
+    ignoreLocation: true,
+    threshold: 0.25,  // Stricter threshold
+    distance: 50
+  };
+  
+  const fuse = new Fuse(brochureData, fuseOptions);
+  const results = fuse.search(query);
+  
+  if (results.length > 0) {
+    const topResult = results[0];
+    // Convert Fuse score (0 = perfect, 1 = worst) to confidence (0-1)
+    const confidence = 1 - (topResult.score || 0);
+    
+    // ONLY accept if confidence >= 0.85
+    if (confidence >= 0.85) {
+      return {
+        matchedEntry: topResult.item,
+        confidenceScore: confidence,
+        answerObject: topResult.item.answer,
+        matchType: 'semantic'
+      };
+    }
+  }
+  
+  return null;
+}
+
+/**
+ * MAIN SEARCH FUNCTION
+ * Enforces strict priority and rejection threshold
+ */
+export function searchBrochure(query) {
+  if (!query || typeof query !== 'string' || query.trim().length === 0) {
+    return {
+      matchedEntry: null,
+      confidenceScore: 0,
+      answerObject: null,
+      error: 'Empty query'
     };
   }
-
-  // Step 2: Try exact keyword match
-  const exactMatch = findExactKeywordMatch(query);
+  
+  // Reject too short queries (< 2 characters)
+  const normalized = normalizeText(query);
+  if (normalized.length < 2) {
+    return {
+      matchedEntry: null,
+      confidenceScore: 0,
+      answerObject: null,
+      error: 'Query too short'
+    };
+  }
+  
+  // PRIORITY 1: Exact Match (1.0)
+  const exactMatch = findExactMatch(query);
   if (exactMatch) {
-    return {
-      results: [{
-        id: exactMatch.entry.id,
-        category: exactMatch.entry.category,
-        title: exactMatch.entry.title,
-        answer: exactMatch.entry.answer,
-        confidence: exactMatch.confidence,
-        matchType: exactMatch.matchType
-      }],
-      confidence: exactMatch.confidence,
-      message: exactMatch.entry.answer,
-      topResult: {
-        id: exactMatch.entry.id,
-        title: exactMatch.entry.title,
-        answer: exactMatch.entry.answer
-      }
-    };
+    return exactMatch;
   }
-
-  // Step 3: Try question match
-  const questionMatch = findQuestionMatch(query);
-  if (questionMatch) {
-    return {
-      results: [{
-        id: questionMatch.entry.id,
-        category: questionMatch.entry.category,
-        title: questionMatch.entry.title,
-        answer: questionMatch.entry.answer,
-        confidence: questionMatch.confidence,
-        matchType: questionMatch.matchType
-      }],
-      confidence: questionMatch.confidence,
-      message: questionMatch.entry.answer,
-      topResult: {
-        id: questionMatch.entry.id,
-        title: questionMatch.entry.title,
-        answer: questionMatch.entry.answer
-      }
-    };
+  
+  // PRIORITY 2: Alias Map (0.95)
+  const aliasMatch = findAliasMapMatch(query);
+  if (aliasMatch) {
+    return aliasMatch;
   }
-
-  // Step 4: Try title match
-  const titleMatch = findTitleMatch(query);
-  if (titleMatch) {
-    return {
-      results: [{
-        id: titleMatch.entry.id,
-        category: titleMatch.entry.category,
-        title: titleMatch.entry.title,
-        answer: titleMatch.entry.answer,
-        confidence: titleMatch.confidence,
-        matchType: titleMatch.matchType
-      }],
-      confidence: titleMatch.confidence,
-      message: titleMatch.entry.answer,
-      topResult: {
-        id: titleMatch.entry.id,
-        title: titleMatch.entry.title,
-        answer: titleMatch.entry.answer
-      }
-    };
+  
+  // PRIORITY 3: Keyword Overlap (0.80-0.90)
+  const keywordMatch = findKeywordMatch(query);
+  if (keywordMatch && keywordMatch.confidenceScore >= 0.75) {
+    return keywordMatch;
   }
-
-  // Step 5: Try partial keyword match
-  const partialMatch = findPartialKeywordMatch(query);
-  if (partialMatch) {
-    return {
-      results: [{
-        id: partialMatch.entry.id,
-        category: partialMatch.entry.category,
-        title: partialMatch.entry.title,
-        answer: partialMatch.entry.answer,
-        confidence: partialMatch.confidence,
-        matchType: partialMatch.matchType
-      }],
-      confidence: partialMatch.confidence,
-      message: partialMatch.entry.answer,
-      topResult: {
-        id: partialMatch.entry.id,
-        title: partialMatch.entry.title,
-        answer: partialMatch.entry.answer
-      }
-    };
+  
+  // PRIORITY 4: Semantic Match (0.85+)
+  const semanticMatch = findSemanticMatch(query);
+  if (semanticMatch && semanticMatch.confidenceScore >= 0.85) {
+    return semanticMatch;
   }
-
-  // Step 6: Try fuzzy match (only after all direct matches fail)
-  const fuzzyMatch = findFuzzyMatch(query);
-  if (fuzzyMatch) {
-    return {
-      results: [{
-        id: fuzzyMatch.entry.id,
-        category: fuzzyMatch.entry.category,
-        title: fuzzyMatch.entry.title,
-        answer: fuzzyMatch.entry.answer,
-        confidence: fuzzyMatch.confidence,
-        matchType: fuzzyMatch.matchType
-      }],
-      confidence: fuzzyMatch.confidence,
-      message: fuzzyMatch.entry.answer,
-      topResult: {
-        id: fuzzyMatch.entry.id,
-        title: fuzzyMatch.entry.title,
-        answer: fuzzyMatch.entry.answer
-      }
-    };
-  }
-
-  // Only fallback if NO brochure match found
+  
+  // REJECTION: No match above threshold
   return {
-    results: [],
-    confidence: 0,
-    message: "I couldn't find this information in our database. Please try different keywords or contact us at +91 89 8000 4325."
+    matchedEntry: null,
+    confidenceScore: 0,
+    answerObject: null,
+    error: 'no_match'
   };
 }
 
-// NEW: Check if brochure has information BEFORE fallback gate
-export function hasBrochureInfo(query) {
-  if (!query) return false;
-  
-  const aliasMatch = findAliasMatch(query);
-  if (aliasMatch) return true;
-  
-  const exactMatch = findExactKeywordMatch(query);
-  if (exactMatch) return true;
-  
-  const questionMatch = findQuestionMatch(query);
-  if (questionMatch) return true;
-  
-  const titleMatch = findTitleMatch(query);
-  if (titleMatch) return true;
-  
-  const partialMatch = findPartialKeywordMatch(query);
-  if (partialMatch) return true;
-  
-  const fuzzyMatch = findFuzzyMatch(query);
-  if (fuzzyMatch) return true;
-  
-  return false;
-}
-
+/**
+ * Formatted response for UI
+ */
 export function getFormattedResponse(query) {
-  // CRITICAL CHANGE: Search brochure FIRST, only use isUniversityRelated as last resort
-  const searchResult = searchKnowledgeBase(query);
+  const result = searchBrochure(query);
   
-  // If brochure found a match, return it
-  if (searchResult.results.length > 0 && searchResult.confidence > 0) {
-    const topResult = searchResult.results[0];
-    let formattedMessage = topResult.answer;
-    if (topResult.category) {
-      formattedMessage += `\n\n📖 Source: ${topResult.category}`;
-    }
-    
-    return {
-      success: true,
-      confidence: topResult.confidence,
-      message: formattedMessage,
-      rawAnswer: topResult.answer,
-      category: topResult.category || 'Unknown',
-      title: topResult.title,
-      confidenceScore: topResult.confidence,
-      matchedKeywords: extractMatchedKeywords(query, topResult),
-      relatedQuestions: topResult.title ? [topResult.title] : [],
-      matchType: searchResult.matchType
-    };
-  }
-  
-  // Only if NO brochure match, check if it's university-related
-  if (!isUniversityRelated(query)) {
+  if (!result.matchedEntry || result.confidenceScore < 0.75) {
     return {
       success: false,
       confidence: 0,
-      message: "I can only answer questions about Rai University. Please ask about programs, admissions, placements, campus, or facilities."
+      message: 'Sorry, no exact information found in the Rai University brochure. Please try rephrasing your question or contact us at +91 89 8000 4325.',
+      matchType: 'no_match'
     };
   }
   
-  // Still no match - final fallback
   return {
-    success: false,
-    confidence: 0,
-    message: "I couldn't find this information. Please contact us at +91 89 8000 4325 or info@raiuniversity.edu for more details."
+    success: true,
+    confidence: result.confidenceScore,
+    message: result.answerObject?.description || '',
+    answer: result.answerObject,
+    entryId: result.matchedEntry.id,
+    title: result.answerObject?.title || result.matchedEntry.question,
+    category: result.matchedEntry.category,
+    matchType: result.matchType
   };
 }
 
-export function isUniversityRelated(query) {
-  const universityKeywords = [
-    'rai', 'university', 'admission', 'course', 'program', 'degree',
-    'placement', 'campus', 'faculty', 'research', 'innovation',
-    'scholarship', 'fee', 'engineering', 'management', 'pharmacy',
-    'law', 'agriculture', 'sciences', 'design', 'liberal', 'studies',
-    'vision', 'mission', 'contact', 'accreditation', 'naac', 'ugc',
-    'bba', 'mba', 'btech', 'b.tech', 'bca', 'mca', 'llb', 'bpharm',
-    'dpharm', 'mpharm', 'bsc', 'msc', 'ba', 'bcom', 'llm', 'cse', 'it',
-    'ai', 'ml', 'cyber', 'security', 'hr', 'marketing', 'finance',
-    'rating', 'ranking', 'achievement', 'honour', 'honors', 'honours'
-  ];
-
-  const normalized = normalizeText(query).toLowerCase().split(' ');
-  return normalized.some(word => 
-    word.length > 0 && universityKeywords.some(keyword => 
-      keyword === word || keyword.includes(word) || word.includes(keyword.substring(0, 3))
-    )
-  );
-}
-
-export function extractMatchedKeywords(query, result) {
-  const queryWords = normalizeText(query).split(' ').filter(w => w.length > 1);
-  const answerText = normalizeText(result.answer);
-  
-  return queryWords.filter(word => answerText.includes(word));
-}
-
-export function searchByCategory(category) {
-  return brochureData.filter(item => 
-    item.category.toLowerCase() === category.toLowerCase()
-  );
-}
-
-export function getSuggestions(query, limit = 5) {
-  if (!query || query.length < 2) return [];
-
-  const normalized = normalizeText(query);
-  const suggestions = brochureData
-    .filter(item => 
-      item.title.toLowerCase().includes(normalized) ||
-      item.keywords.some(k => k.includes(normalized))
-    )
-    .slice(0, limit)
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      category: item.category
-    }));
-
-  return suggestions;
-}
-
 export default {
-  normalizeText,
-  findAliasMatch,
-  findExactKeywordMatch,
-  findQuestionMatch,
-  findTitleMatch,
-  findPartialKeywordMatch,
-  findFuzzyMatch,
-  hasBrochureInfo,
-  searchKnowledgeBase,
-  isUniversityRelated,
-  getFormattedResponse,
-  searchByCategory,
-  getSuggestions
+  searchBrochure,
+  getFormattedResponse
 };

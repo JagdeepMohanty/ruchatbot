@@ -68,8 +68,10 @@ export default function Contact() {
       
       const mailtoLink = `mailto:info@raiuniversity.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       
+      // Open user's email client
       window.location.href = mailtoLink;
       
+      // Set realistic status message
       setTimeout(() => {
         setSubmitStatus('success');
         setFormData({
@@ -80,6 +82,7 @@ export default function Contact() {
           message: ''
         });
         
+        // Auto-clear status after 5 seconds
         setTimeout(() => {
           setSubmitStatus(null);
         }, 5000);
@@ -225,10 +228,10 @@ export default function Contact() {
                     <FiCheck className="text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" size={20} />
                     <div>
                       <p className="text-green-900 dark:text-green-200 font-medium text-sm">
-                        Message Ready!
+                        Email Client Opened
                       </p>
                       <p className="text-green-700 dark:text-green-300 text-xs mt-1">
-                        Your message has been prepared. Click send in your email client to submit it.
+                        Your email application has been opened with the message. Please send it from your email client to complete the submission.
                       </p>
                     </div>
                   </motion.div>

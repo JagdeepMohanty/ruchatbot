@@ -36,7 +36,7 @@ console.log('\n🔍 CHECK 2: Brochure PDF Integration');
 console.log('-'.repeat(80));
 const heroPath = './src/components/layout/Hero.jsx';
 const heroContent = fs.readFileSync(heroPath, 'utf8');
-const hasPdfLink = heroContent.includes('/12 Page Brochuer_Single page.pdf');
+const hasPdfLink = heroContent.includes('/12-Page-Brochure-Single-Page.pdf');
 const hasDownloadHandler = heroContent.includes('handleBrochureDownload');
 const hasDownloadIcon = heroContent.includes('FiDownload');
 
@@ -139,9 +139,9 @@ if (allRemoved) {
 // Check 7: PDF file exists
 console.log('\n🔍 CHECK 7: Brochure PDF Availability');
 console.log('-'.repeat(80));
-const pdfExists = fs.existsSync('./12 Page Brochuer_Single page.pdf');
+const pdfExists = fs.existsSync('./12-Page-Brochure-Single-Page.pdf');
 if (pdfExists) {
-  const stats = fs.statSync('./12 Page Brochuer_Single page.pdf');
+  const stats = fs.statSync('./12-Page-Brochure-Single-Page.pdf');
   const sizeMB = (stats.size / (1024 * 1024)).toFixed(2);
   console.log(`✅ Brochure PDF found (${sizeMB} MB)`);
   console.log('✅ Ready for download');

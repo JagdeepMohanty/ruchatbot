@@ -34,12 +34,3 @@ export const FEATURES = [
   },
 ];
 
-export const SUGGESTED_QUESTIONS = [
-  'What are the admission requirements?',
-  'How do I apply?',
-  'What programs are available?',
-  'What is the tuition fee?',
-  'What is the application deadline?',
-];
-
-export const CHATBOT_WELCOME_MESSAGE = `Hello! 👋 I'm your University Admission Assistant. I'm here to help you with information about programs, applications, eligibility requirements, and more. How can I assist you today?`;

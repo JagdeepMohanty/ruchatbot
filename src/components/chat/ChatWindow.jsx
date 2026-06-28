@@ -4,23 +4,7 @@ import ChatBubble from './ChatBubble';
 import TypingIndicator from './TypingIndicator';
 import SuggestedQuestions from './SuggestedQuestions';
 import { FiCopy, FiCheck } from 'react-icons/fi';
-
-const WELCOME_QUESTIONS = [
-  'What is the admission process?',
-  'What programs does Rai University offer?',
-  'What is the placement rate?',
-  'Are hostel facilities available?',
-  'What scholarships are offered?',
-  'How do I contact Rai University?'
-];
-
-const DEFAULT_MESSAGE = {
-  id: 'welcome_001',
-  type: 'bot',
-  text: "👋 Welcome to Rai University Chatbot! I'm here to help you with information about our programs, admissions, placements, campus facilities, and more. What would you like to know about Rai University?",
-  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-  isWelcome: true,
-};
+import { SUGGESTED_QUESTIONS } from '../../constants/chatbot';
 
 function ChatWindow({ messages = [], isLoading = false, onSuggestedQuestion }) {
   const messagesEndRef = useRef(null);
@@ -44,7 +28,7 @@ function ChatWindow({ messages = [], isLoading = false, onSuggestedQuestion }) {
     }
   };
 
-  const displayMessages = messages.length > 0 ? messages : [DEFAULT_MESSAGE];
+  const displayMessages = messages.length > 0 ? messages : [];
   const showSuggestions = messages.length === 0 || (messages.length === 1 && messages[0].isWelcome);
 
   return (
@@ -68,11 +52,14 @@ function ChatWindow({ messages = [], isLoading = false, onSuggestedQuestion }) {
                   timestamp={msg.timestamp}
                   confidence={msg.confidence}
                   matchedKeywords={msg.matchedKeywords || []}
+                  answer={msg.answer || null}
                 />
+
+                {/* Desktop/Tablet: absolute copy button on hover */}
                 {msg.type === 'bot' && !msg.isWelcome && (
                   <button
                     onClick={() => handleCopyMessage(msg.id, msg.text)}
-                    className="absolute -top-1 -right-8 sm:-right-10 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg bg-gray-200 hover:bg-gray-300 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
+                    className="hidden sm:block absolute -top-1 -right-8 sm:-right-10 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg bg-gray-200 hover:bg-gray-300 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                     title="Copy message"
                     aria-label="Copy message to clipboard"
                   >
@@ -82,6 +69,23 @@ function ChatWindow({ messages = [], isLoading = false, onSuggestedQuestion }) {
                       <FiCopy size={16} className="text-gray-600" aria-hidden="true" />
                     )}
                   </button>
+                )}
+
+                {/* Mobile: inline small copy button below the bubble */}
+                {msg.type === 'bot' && !msg.isWelcome && (
+                  <div className="sm:hidden mt-2 flex justify-end">
+                    <button
+                      onClick={() => handleCopyMessage(msg.id, msg.text)}
+                      className="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-gray-100 hover:bg-gray-200 text-xs text-gray-700"
+                      aria-label="Copy message"
+                    >
+                      {copiedId === msg.id ? (
+                        <><FiCheck size={14} className="text-green-600" aria-hidden="true" /> Copied</>
+                      ) : (
+                        <><FiCopy size={14} aria-hidden="true" /> Copy</>
+                      )}
+                    </button>
+                  </div>
                 )}
               </div>
             </motion.div>
@@ -107,7 +111,7 @@ function ChatWindow({ messages = [], isLoading = false, onSuggestedQuestion }) {
           >
             <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4">💡 Popular Questions:</p>
             <SuggestedQuestions
-              questions={WELCOME_QUESTIONS}
+              questions={SUGGESTED_QUESTIONS}
               onSelect={onSuggestedQuestion}
             />
           </motion.div>

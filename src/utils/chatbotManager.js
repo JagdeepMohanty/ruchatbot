@@ -1,4 +1,5 @@
-import { getFormattedResponse } from './searchEngine';
+import { getFormattedResponse } from './searchEngine.js';
+import { CHATBOT_MESSAGES, CHATBOT_SETTINGS, SUGGESTED_QUESTIONS } from '../constants/chatbot.js';
 
 /**
  * Chatbot conversation manager
@@ -36,10 +37,10 @@ export class ChatbotManager {
   }
 
   /**
-   * Generate message ID
+   * Generate message ID with dynamic timestamp
    */
   generateMessageId() {
-    return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `msg_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
   }
 
   /**
@@ -47,7 +48,11 @@ export class ChatbotManager {
    */
   getCurrentTimestamp() {
     const now = new Date();
-    return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    // Use consistent human-friendly timestamp including date for clarity across devices
+    return now.toLocaleString('en-GB', {
+      year: 'numeric', month: 'short', day: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    });
   }
 
   /**
@@ -70,15 +75,22 @@ export class ChatbotManager {
   /**
    * Add bot message to conversation
    */
-  addBotMessage(text, confidence = 0, metadata = {}, matchedKeywords = [], rawAnswer = '') {
+  addBotMessage(text, confidence = 0, metadata = {}, matchedKeywords = [], answer = null) {
+    let rawConfidence = 0;
+    if (typeof confidence === 'number') {
+      rawConfidence = confidence <= 1 ? confidence : (confidence / 100);
+    }
+    const confidencePercent = Math.round((rawConfidence || 0) * 100);
+
     const message = {
       id: this.generateMessageId(),
       type: 'bot',
       text: text,
       timestamp: this.getCurrentTimestamp(),
-      confidence: confidence,
+      confidence: confidencePercent,
+      rawConfidence: rawConfidence,
       matchedKeywords: matchedKeywords,
-      rawAnswer: rawAnswer,
+      answer: answer,
       metadata: metadata,
       createdAt: Date.now()
     };
@@ -90,29 +102,27 @@ export class ChatbotManager {
 
   /**
    * Process user query and get bot response
-   * Note: User message should already be added by caller (Chatbot component)
    */
-  async processQuery(userQuery, threshold = 60) {
-    // Simulate typing delay with loading animation
-    await new Promise(resolve => setTimeout(resolve, 800));
+  async processQuery(userQuery) {
+    await new Promise(resolve => setTimeout(resolve, CHATBOT_SETTINGS.typingDelay));
 
-    // Get response from search engine
-    const response = getFormattedResponse(userQuery, threshold);
-
-    // Extract matched keywords for highlighting
+    const response = getFormattedResponse(userQuery);
     const matchedKeywords = response.matchedKeywords || [];
+    const rawConfidence = typeof response.confidence === 'number' ? response.confidence : 0;
 
-    // Create bot message with confidence and keywords
+    const metadata = {
+      category: response.category || (response.entryId ? 'Brochure' : 'Unknown'),
+      title: response.title || '',
+      isFromBrochure: !!response.success,
+      rawConfidence: rawConfidence
+    };
+
     const botMessage = this.addBotMessage(
       response.message,
-      response.confidence || 0,
-      {
-        category: response.category || 'Unknown',
-        title: response.title || '',
-        isFromBrochure: response.success
-      },
+      rawConfidence,
+      metadata,
       matchedKeywords,
-      response.rawAnswer || ''
+      response.answer || null
     );
 
     return {
@@ -128,7 +138,7 @@ export class ChatbotManager {
     return {
       id: this.generateMessageId(),
       type: 'bot',
-      text: "👋 Welcome to Rai University Chatbot! I'm here to help you with information about our programs, admissions, placements, campus facilities, and more. What would you like to know about Rai University?",
+      text: CHATBOT_MESSAGES.welcome,
       timestamp: this.getCurrentTimestamp(),
       isWelcome: true,
       createdAt: Date.now()
@@ -139,7 +149,7 @@ export class ChatbotManager {
    * Get suggested questions
    */
   getSuggestedQuestions() {
-    return [
+    return SUGGESTED_QUESTIONS || CHATBOT_SETTINGS.SUGGESTED_QUESTIONS || [
       "What is the admission process?",
       "What programs does Rai University offer?",
       "What is the placement rate?",
@@ -214,6 +224,67 @@ export class ChatbotManager {
   }
 
   /**
+   * Get conversations grouped by date
+   */
+  getConversationsByDate() {
+    const now = Date.now();
+    const oneDay = 24 * 60 * 60 * 1000;
+    const sevenDays = 7 * oneDay;
+
+    const grouped = {
+      today: [],
+      yesterday: [],
+      lastWeek: [],
+      older: []
+    };
+
+    // Group user messages into conversations (user + bot pairs)
+    const conversations = [];
+    let currentConv = null;
+
+    this.conversationHistory.forEach(msg => {
+      if (msg.type === 'user') {
+        if (currentConv) conversations.push(currentConv);
+        currentConv = {
+          id: msg.id,
+          title: msg.text.slice(0, 50) + (msg.text.length > 50 ? '...' : ''),
+          timestamp: msg.createdAt,
+          preview: msg.text
+        };
+      }
+    });
+    if (currentConv) conversations.push(currentConv);
+
+    // Sort by timestamp descending
+    conversations.sort((a, b) => b.timestamp - a.timestamp);
+
+    // Categorize by date
+    conversations.forEach(conv => {
+      const age = now - conv.timestamp;
+
+      if (age < oneDay) {
+        grouped.today.push(conv);
+      } else if (age < 2 * oneDay) {
+        grouped.yesterday.push(conv);
+      } else if (age < sevenDays) {
+        grouped.lastWeek.push(conv);
+      } else {
+        grouped.older.push(conv);
+      }
+    });
+
+    return grouped;
+  }
+
+  /**
+   * Get today's conversations
+   */
+  getTodayConversations() {
+    const grouped = this.getConversationsByDate();
+    return grouped.today;
+  }
+
+  /**
    * Get recent messages
    */
   getRecentMessages(limit = 10) {
@@ -221,19 +292,22 @@ export class ChatbotManager {
   }
 
   /**
-   * Copy message to clipboard
+   * Load specific conversation by message ID
    */
-  async copyToClipboard(messageId) {
-    try {
-      const message = this.conversationHistory.find(m => m.id === messageId);
-      if (message) {
-        await navigator.clipboard.writeText(message.text);
-        return { success: true, message: 'Copied to clipboard!' };
-      }
-      return { success: false, message: 'Message not found' };
-    } catch {
-      return { success: false, message: 'Failed to copy' };
+  loadConversation(messageId) {
+    const msgIndex = this.conversationHistory.findIndex(m => m.id === messageId);
+    if (msgIndex === -1) return null;
+
+    // Find conversation start (look backwards for user message)
+    let startIndex = msgIndex;
+    while (startIndex > 0 && this.conversationHistory[startIndex - 1].type !== 'user') {
+      startIndex--;
     }
+
+    return {
+      messageId,
+      messages: this.conversationHistory.slice(startIndex, msgIndex + 2)
+    };
   }
 
   /**

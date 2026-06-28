@@ -5,6 +5,7 @@ import Sidebar from '../components/layout/Sidebar';
 import ChatWindow from '../components/chat/ChatWindow';
 import InputBox from '../components/chat/InputBox';
 import { getChatbotInstance } from '../utils/chatbotManager';
+import { CHATBOT_MESSAGES } from '../constants/chatbot';
 
 export default function Chatbot() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,7 +17,12 @@ export default function Chatbot() {
   // Initialize messages with chatbot's history
   const [messages, setMessages] = useState(() => {
     const history = chatbot.getChatHistory();
-    return history.length === 0 ? [chatbot.getWelcomeMessage()] : history;
+    if (history.length === 0) {
+      // Persist welcome message so it remains across refreshes
+      const welcome = chatbot.addBotMessage(CHATBOT_MESSAGES.welcome, 100, { isWelcome: true });
+      return [welcome];
+    }
+    return history;
   });
 
   // Memoize handlers to prevent unnecessary re-renders of child components
@@ -30,7 +36,7 @@ export default function Chatbot() {
 
     try {
       // Process query and get response
-      const result = await chatbot.processQuery(message, 60);
+      const result = await chatbot.processQuery(message);
       setMessages(prev => [...prev, result.botMessage]);
     } catch (err) {
       console.error('Error processing message:', err);
@@ -66,6 +72,8 @@ export default function Chatbot() {
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
           onNewChat={handleNewChat}
+          chatbot={chatbot}
+          messages={messages}
         />
 
         <div className="flex-1 flex flex-col overflow-hidden">

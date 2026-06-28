@@ -4,7 +4,9 @@ import { FiArrowRight, FiDownload } from 'react-icons/fi';
 
 export default function Hero() {
   const handleBrochureDownload = () => {
-    window.open('/12 Page Brochuer_Single page.pdf', '_blank');
+    // Use normalized filename without spaces for deployment-safe paths
+    const filename = '/12-Page-Brochure-Single-Page.pdf';
+    window.open(filename, '_blank');
   };
 
   return (

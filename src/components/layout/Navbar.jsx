@@ -18,6 +18,11 @@ export default function Navbar() {
             src="https://res.cloudinary.com/dybzmpwaq/image/upload/v1782329237/Screenshot_2026-06-25_004829_h0zttp.png" 
             alt="Rai University Logo"
             className="h-10 w-auto object-contain"
+            onError={(e) => {
+              // Fallback to site favicon if remote image fails
+              try { e.target.onerror = null; e.target.src = '/favicon.svg'; } catch (err) { /* noop */ }
+            }}
+            loading="lazy"
           />
           {/* <div className="hidden sm:block">
             <div className="text-sm font-bold text-gray-900">Rai University</div>

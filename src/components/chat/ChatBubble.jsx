@@ -1,90 +1,147 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
 import { formatResponse } from '../../utils/responseRenderer';
 
-function ChatBubble({ message, isBot = false, timestamp, confidence, matchedKeywords = [] }) {
-  // Highlight matched keywords in text
-  const highlightKeywords = (text, keywords) => {
-    if (!keywords || keywords.length === 0) return text;
-    
-    let result = text;
-    keywords.forEach(keyword => {
-      const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-      result = result.replace(
-        regex,
-        `<mark class="bg-yellow-200 font-semibold">$&</mark>`
-      );
-    });
-    return result;
-  };
+/**
+ * CHATBUBBLE - Structured FAQ-Style Rendering
+ * 
+ * RULES:
+ * - NO confidence scores shown to users
+ * - NO timestamps in main content
+ * - NO dangerouslySetInnerHTML
+ * - Structured rendering: title → description → lists → source
+ */
 
-  // Render structured content blocks
-  const renderStructuredContent = (blocks) => {
+function ChatBubble({ message, isBot = false, timestamp, answer }) {
+  /**
+   * Render structured answer blocks
+   * Each block type has specific styling
+   */
+  const renderStructuredBlocks = (blocks) => {
+    if (!blocks || blocks.length === 0) return null;
+
     return blocks.map((block) => {
       if (!block) return null;
 
-      if (block.type === 'paragraph') {
-        return (
-          <p key={block.key} className="mb-3 leading-relaxed text-sm sm:text-base">
-            {highlightKeywords(block.content, matchedKeywords)}
-          </p>
-        );
-      }
+      switch (block.type) {
+        // Title - H3 heading
+        case 'title':
+          return (
+            <h3 
+              key={block.key} 
+              className="text-base sm:text-lg font-bold mb-2 text-gray-900 leading-tight"
+            >
+              {block.content}
+            </h3>
+          );
 
-      if (block.type === 'ul') {
-        return (
-          <ul key={block.key} className="mb-3 ml-4 space-y-1">
-            {block.items.map((item, idx) => (
-              <li key={idx} className="list-disc text-sm sm:text-base leading-relaxed">
-                {highlightKeywords(item, matchedKeywords)}
-              </li>
-            ))}
-          </ul>
-        );
-      }
+        // Description - Paragraph
+        case 'description':
+          return (
+            <p 
+              key={block.key} 
+              className="mb-3 leading-relaxed text-sm sm:text-base text-gray-700"
+            >
+              {block.content}
+            </p>
+          );
 
-      if (block.type === 'ol') {
-        return (
-          <ol
-            key={block.key}
-            className="mb-3 ml-4 space-y-1 list-decimal"
-            style={block.letterStyle ? { listStyleType: 'lower-alpha' } : {}}
-          >
-            {block.items.map((item, idx) => (
-              <li key={idx} className="text-sm sm:text-base leading-relaxed">
-                {highlightKeywords(item, matchedKeywords)}
-              </li>
-            ))}
-          </ol>
-        );
-      }
+        // Details - Bullet list with heading
+        case 'details':
+          return (
+            <div key={block.key} className="mb-3">
+              {block.heading && (
+                <p className="font-semibold text-sm sm:text-base mb-2 text-gray-900">
+                  {block.heading}
+                </p>
+              )}
+              <ul className="ml-5 space-y-1.5 list-disc marker:text-primary-600">
+                {block.items.map((item, idx) => (
+                  <li 
+                    key={idx} 
+                    className="text-sm sm:text-base leading-relaxed text-gray-700 pl-1"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
 
-      return null;
+        // Specializations - Separate section
+        case 'specializations':
+          return (
+            <div key={block.key} className="mb-3">
+              <p className="font-semibold text-sm sm:text-base mb-2 text-gray-900">
+                {block.heading}
+              </p>
+              <ul className="ml-5 space-y-1.5 list-disc marker:text-indigo-600">
+                {block.items.map((item, idx) => (
+                  <li 
+                    key={idx} 
+                    className="text-sm sm:text-base leading-relaxed text-gray-700 pl-1"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+
+        // Features - Separate section
+        case 'features':
+          return (
+            <div key={block.key} className="mb-3">
+              <p className="font-semibold text-sm sm:text-base mb-2 text-gray-900">
+                {block.heading}
+              </p>
+              <ul className="ml-5 space-y-1.5 list-disc marker:text-green-600">
+                {block.items.map((item, idx) => (
+                  <li 
+                    key={idx} 
+                    className="text-sm sm:text-base leading-relaxed text-gray-700 pl-1"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+
+        // Source - Small footer text ONLY
+        case 'source':
+          return (
+            <div 
+              key={block.key} 
+              className="mt-4 pt-3 border-t border-gray-300"
+            >
+              <p className="text-xs text-gray-500 italic">
+                Source: {block.content}
+              </p>
+            </div>
+          );
+
+        // Plain text fallback
+        case 'text':
+          return (
+            <p 
+              key={block.key} 
+              className="text-sm sm:text-base leading-relaxed text-gray-700"
+            >
+              {block.content}
+            </p>
+          );
+
+        default:
+          return null;
+      }
     });
   };
 
-  const getConfidenceColor = (score) => {
-    if (score >= 85) return 'text-green-600';
-    if (score >= 70) return 'text-blue-600';
-    if (score >= 60) return 'text-yellow-600';
-    return 'text-red-600';
-  };
-
-  const getConfidenceLabel = (score) => {
-    if (score >= 85) return 'High confidence';
-    if (score >= 70) return 'Good match';
-    if (score >= 60) return 'Partial match';
-    return 'Low confidence';
-  };
-
-  // Parse and format bot response
-  let formattedBlocks = null;
-  if (isBot) {
-    const formatted = formatResponse(message);
-    if (formatted.hasStructure && formatted.blocks.length > 0) {
-      formattedBlocks = formatted.blocks;
-    }
+  // Format bot response if answer object exists
+  let formatted = null;
+  if (isBot && answer) {
+    formatted = formatResponse({ answer });
   }
 
   return (
@@ -97,41 +154,36 @@ function ChatBubble({ message, isBot = false, timestamp, confidence, matchedKeyw
       <div
         className={`w-full sm:max-w-xs md:max-w-md lg:max-w-lg px-3 sm:px-4 py-3 sm:py-4 rounded-lg sm:rounded-2xl shadow-md transition-all hover:shadow-lg ${
           isBot
-            ? 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 border border-gray-200 rounded-bl-lg sm:rounded-bl-none'
-            : 'bg-gradient-to-br from-primary-700 to-primary-800 text-white rounded-br-lg sm:rounded-br-none shadow-lg'
+            ? 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 border border-gray-200'
+            : 'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-lg'
         }`}
       >
-        <div className="text-sm sm:text-base leading-relaxed break-words overflow-wrap-break-word">
-          {isBot && formattedBlocks ? (
+        {/* Main Content */}
+        <div className="text-sm sm:text-base leading-relaxed break-words">
+          {isBot && formatted && formatted.type === 'structured' ? (
+            // Structured FAQ-style rendering
             <div className="space-y-2">
-              {renderStructuredContent(formattedBlocks)}
+              {renderStructuredBlocks(formatted.blocks)}
             </div>
-          ) : isBot && matchedKeywords && matchedKeywords.length > 0 ? (
-            <div dangerouslySetInnerHTML={{ __html: highlightKeywords(message, matchedKeywords) }} />
           ) : (
-            message
+            // Plain text (user messages or error messages)
+            <div className={isBot ? 'text-gray-800' : 'text-white'}>
+              {message}
+            </div>
           )}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 mt-2 flex-wrap">
-          <span className={`text-xs font-medium ${isBot ? 'text-gray-500' : 'text-primary-100'}`}>
-            {timestamp}
-          </span>
-          {isBot && confidence && (
-            <span className={`text-xs font-medium flex items-center gap-1 ${getConfidenceColor(confidence)}`}>
-              {confidence >= 70 ? (
-                <FiCheckCircle size={12} aria-hidden="true" />
-              ) : (
-                <FiAlertCircle size={12} aria-hidden="true" />
-              )}
-              {getConfidenceLabel(confidence)} ({confidence}%)
+        {/* Footer - Only timestamp, NO confidence */}
+        {timestamp && (
+          <div className="mt-2 pt-2 border-t border-gray-200">
+            <span className={`text-xs ${isBot ? 'text-gray-400' : 'text-primary-100'}`}>
+              {timestamp}
             </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </motion.div>
   );
 }
 
-// Memoize component to prevent unnecessary re-renders
 export default memo(ChatBubble);
