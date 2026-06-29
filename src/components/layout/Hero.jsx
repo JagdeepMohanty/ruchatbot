@@ -45,12 +45,12 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="hidden lg:block"
           >
-            <div className="bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl aspect-square flex items-center justify-center">
+            {/* <div className="bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl aspect-square flex items-center justify-center">
               <div className="text-center p-8">
                 <div className="text-6xl mb-4">💬</div>
                 <p className="text-primary-700 font-semibold">Interactive AI Chatbot</p>
               </div>
-            </div>
+            </div> */}
           </motion.div>
         </div>
       </div>

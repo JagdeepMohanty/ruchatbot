@@ -168,7 +168,10 @@
     "category": "University",
     "keywords": [
       "schools",
-      "departments"
+      "departments",
+      "course",
+      "courses"
+
     ],
     "answer": {
       "title": "Schools at Rai University",
