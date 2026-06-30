@@ -1,5 +1,5 @@
 import { getFormattedResponse } from './searchEngine.js';
-import { CHATBOT_MESSAGES, CHATBOT_SETTINGS, SUGGESTED_QUESTIONS } from '../constants/chatbot.js';
+import { CHATBOT_MESSAGES, CHATBOT_SETTINGS } from '../constants/chatbot.js';
 
 /**
  * Chatbot conversation manager
@@ -143,20 +143,6 @@ export class ChatbotManager {
       isWelcome: true,
       createdAt: Date.now()
     };
-  }
-
-  /**
-   * Get suggested questions
-   */
-  getSuggestedQuestions() {
-    return SUGGESTED_QUESTIONS || CHATBOT_SETTINGS.SUGGESTED_QUESTIONS || [
-      "What is the admission process?",
-      "What programs does Rai University offer?",
-      "What is the placement rate?",
-      "Tell me about the AI Learning Platform",
-      "Are hostel facilities available?",
-      "How do I contact Rai University?"
-    ];
   }
 
   /**
@@ -343,7 +329,7 @@ export class ChatbotManager {
     };
 
     const category = lastBotMessage?.metadata?.category || 'About';
-    return suggestionsMap[category] || this.getSuggestedQuestions().slice(0, 3);
+    return suggestionsMap[category] || [];
   }
 }
 

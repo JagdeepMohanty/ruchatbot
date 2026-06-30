@@ -28,10 +28,3 @@ export const CHATBOT_SETTINGS = {
   typingDelay: 800,
   minQuestionMatchScore: 0.7,
 };
-
-/*
- * Suggested questions intentionally disabled.
- * Keeping an empty array prevents runtime errors
- * in components that expect this export.
- */
-export const SUGGESTED_QUESTIONS = [];

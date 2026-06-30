@@ -2,11 +2,9 @@ import { useEffect, useRef, memo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ChatBubble from './ChatBubble';
 import TypingIndicator from './TypingIndicator';
-import SuggestedQuestions from './SuggestedQuestions';
 import { FiCopy, FiCheck } from 'react-icons/fi';
-import { SUGGESTED_QUESTIONS } from '../../constants/chatbot';
 
-function ChatWindow({ messages = [], isLoading = false, onSuggestedQuestion }) {
+function ChatWindow({ messages = [], isLoading = false }) {
   const messagesEndRef = useRef(null);
   const [copiedId, setCopiedId] = useState(null);
 
@@ -29,7 +27,6 @@ function ChatWindow({ messages = [], isLoading = false, onSuggestedQuestion }) {
   };
 
   const displayMessages = messages.length > 0 ? messages : [];
-  const showSuggestions = messages.length === 0 || (messages.length === 1 && messages[0].isWelcome);
 
   return (
     <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white to-gray-50 custom-scrollbar">
@@ -99,21 +96,6 @@ function ChatWindow({ messages = [], isLoading = false, onSuggestedQuestion }) {
             className="flex justify-start"
           >
             <TypingIndicator />
-          </motion.div>
-        )}
-
-        {showSuggestions && !isLoading && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200"
-          >
-            <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4">💡 Popular Questions:</p>
-            <SuggestedQuestions
-              questions={SUGGESTED_QUESTIONS}
-              onSelect={onSuggestedQuestion}
-            />
           </motion.div>
         )}
 

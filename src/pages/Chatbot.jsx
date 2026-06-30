@@ -51,10 +51,6 @@ export default function Chatbot() {
     }
   }, [chatbot]);
 
-  const handleSuggestedQuestion = useCallback((question) => {
-    handleSendMessage(question);
-  }, [handleSendMessage]);
-
   const handleNewChat = useCallback(() => {
     if (chatbot) {
       chatbot.clearChatHistory();
@@ -91,7 +87,6 @@ export default function Chatbot() {
           <ChatWindow
             messages={messages}
             isLoading={isLoading}
-            onSuggestedQuestion={handleSuggestedQuestion}
           />
 
           <InputBox onSend={handleSendMessage} isLoading={isLoading} />
